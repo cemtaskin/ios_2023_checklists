@@ -8,10 +8,24 @@
 import UIKit
 
 class CheckListViewController: UITableViewController {
+    var items  = [ChechkListItem]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        var item0 = ChechkListItem()
+        item0.text="Walk the dog"
+        item0.checked=false
+        
+        
+        var item1 = ChechkListItem()
+        item1.text="Brush the teeth"
+        item1.checked=true
+        
+        items.append(item0)
+        items.append(item1)
+        
     }
 
     
@@ -20,7 +34,7 @@ class CheckListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 100
+        return items.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -28,33 +42,27 @@ class CheckListViewController: UITableViewController {
         
         let label =  cell.viewWithTag(1000) as! UILabel
         
-        label.text = "\(indexPath.row)"
+        let item = items[indexPath.row]
+        label.text = "\(item.text)"
         
-        switch(indexPath.row%5){
-        
-            case 0:
-            label.text = label.text! +  "Walk the dog"
-                break
-            case 1:
-            label.text = label.text! + " Brush your teeth"
-                break
-            case 2:
-            label.text = label.text! + "Learn iOS development"
-                break
-            case 3:
-            label.text = label.text! + "Soccer Practice"
-                break
-            case 4:
-            label.text = label.text! + "Eat ice cream"
-                break
-            default:
-                break
-        }
-
+    
         
         return cell
     }
    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if let cell = tableView.cellForRow(at: indexPath){
+            if (cell.accessoryType == .checkmark){
+                cell.accessoryType = .none
+            }else{
+                cell.accessoryType = .checkmark
+            }
+        }
+        tableView.deselectRow(at: indexPath, animated: false)
+        
+    }
 
 }
 
